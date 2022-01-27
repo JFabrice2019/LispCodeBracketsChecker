@@ -6,12 +6,30 @@ import java.util.Scanner;
 
 public class Main {
 
+    private static final Scanner scan = new Scanner(System.in);
+    private static boolean exit = false;
+
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        String lispCode;
-        System.out.println("Please, input your LISP code");
-        lispCode = scan.nextLine();
-        System.out.println(validatingLisp(lispCode));
+        char choice;
+        int choiceInt;
+        printMenu();
+        while (!exit){
+            choice = scan.next().charAt(0);
+            scan.nextLine();
+            if(!Character.isDigit(choice) || choice != '1'){
+                choiceInt = 0;
+            }
+
+            else{
+                choiceInt = 1;
+            }
+
+            if (choiceInt == 1) {
+                validate();
+            } else {
+                exit = true;
+            }
+        }
     }
 
     public static boolean validatingLisp(String lispCode) {
@@ -30,6 +48,7 @@ public class Main {
                 brackets.append(ch);
             }
         }
+
         System.out.print(brackets + ": ");
         if(opening != closing){
             return false;
@@ -39,7 +58,7 @@ public class Main {
                 if (ch == '(') {
                     bracketDeque.addFirst(ch);
                 } else {
-                    if (!bracketDeque.isEmpty() && (bracketDeque.peekFirst() == '(' && ch == ')')) {
+                    if (!bracketDeque.isEmpty() && (bracketDeque.peekFirst() == '(')) {
                         bracketDeque.removeFirst();
                     } else {
                         return false;
@@ -48,5 +67,19 @@ public class Main {
             }
             return true;
         }
+    }
+
+    public static void validate(){
+        String lispCode;
+        System.out.println("Please, input your LISP code");
+        lispCode = scan.nextLine();
+        System.out.println(validatingLisp(lispCode));
+        printMenu();
+    }
+
+    public static void printMenu(){
+        System.out.println("Please, select an option.");
+        System.out.println("1. Validate List Code");
+        System.out.println("0. Exit");
     }
 }
